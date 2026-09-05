@@ -1,19 +1,605 @@
-<!DOCTYPE html>
-<html lang="en">
-
+<!doctype html>
+<html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="style.css" rel="stylesheet">
-    <title>Document</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Khaled Lanouar</title>
+<meta name="description" content="Portfolio IA/ML Engineer de Khaled Lanouar — expérience, projets RAG &amp; agents, MLOps, compétences.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root{
+    --paper:#eef1f5;
+    --surface:#ffffff;
+    --ink:#16212e;
+    --muted:#55636f;
+    --line:#d7dde4;
+    --accent:#c8702b;
+    --accent-ink:#7a4118;
+    --accent-soft:#f3e2d1;
+    --teal:#2f8f8a;
+    --teal-soft:#dbeeed;
+    --shadow: 0 1px 2px rgba(22,33,46,.06), 0 8px 24px -12px rgba(22,33,46,.18);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#0f151c;
+      --surface:#161f28;
+      --ink:#e8edf2;
+      --muted:#94a3b0;
+      --line:#2a3641;
+      --accent:#e2a463;
+      --accent-ink:#f5cfa0;
+      --accent-soft:#3a2c1c;
+      --teal:#57beb6;
+      --teal-soft:#173330;
+      --shadow: 0 1px 2px rgba(0,0,0,.35), 0 12px 28px -14px rgba(0,0,0,.55);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#0f151c;
+    --surface:#161f28;
+    --ink:#e8edf2;
+    --muted:#94a3b0;
+    --line:#2a3641;
+    --accent:#e2a463;
+    --accent-ink:#f5cfa0;
+    --accent-soft:#3a2c1c;
+    --teal:#57beb6;
+    --teal-soft:#173330;
+    --shadow: 0 1px 2px rgba(0,0,0,.35), 0 12px 28px -14px rgba(0,0,0,.55);
+  }
+
+  *{box-sizing:border-box;}
+  html{background:var(--paper);}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif;
+    font-size:15.5px;
+    line-height:1.6;
+    margin:0;
+  }
+  .wrap{
+    max-width:820px;
+    margin:0 auto;
+    padding:56px 24px 80px;
+  }
+  h1,h2,h3{text-wrap:balance; margin:0;}
+  a{color:inherit;}
+  .mono{font-family:'IBM Plex Mono', ui-monospace, monospace;}
+  .label{
+    font-family:'IBM Plex Mono', ui-monospace, monospace;
+    font-size:11.5px;
+    letter-spacing:.11em;
+    text-transform:uppercase;
+    color:var(--muted);
+  }
+
+  /* ---------- Header ---------- */
+  header{margin-bottom:44px;}
+  .name{
+    font-family:'Big Shoulders Display', ui-sans-serif, sans-serif;
+    font-weight:800;
+    font-size:clamp(40px,7vw,64px);
+    line-height:.96;
+    letter-spacing:.005em;
+    text-transform:uppercase;
+  }
+  .tagline{
+    margin-top:6px;
+    font-size:17px;
+    font-weight:500;
+    color:var(--accent-ink);
+  }
+  .contacts{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-top:18px;
+  }
+  .pill{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    padding:6px 12px;
+    border:1px solid var(--line);
+    border-radius:999px;
+    background:var(--surface);
+    font-family:'IBM Plex Mono', ui-monospace, monospace;
+    font-size:12.5px;
+    text-decoration:none;
+    color:var(--ink);
+    transition:border-color .15s ease, transform .15s ease;
+  }
+  .pill:hover{border-color:var(--accent); transform:translateY(-1px);}
+  .pill svg{width:14px;height:14px;stroke:var(--muted);flex:none;}
+  .pill:hover svg{stroke:var(--accent);}
+
+  .summary{
+    margin-top:22px;
+    max-width:66ch;
+    color:var(--ink);
+  }
+  .summary b{color:var(--ink); font-weight:600;}
+
+  /* ---------- Pipeline strip ---------- */
+  .flow-strip{
+    margin-top:26px;
+    display:flex;
+    align-items:center;
+    gap:0;
+    flex-wrap:wrap;
+  }
+  .flow-node{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:6px 0;
+  }
+  .flow-dot{
+    width:8px;height:8px;border-radius:50%;
+    background:var(--accent);
+    flex:none;
+  }
+  .flow-node .label{color:var(--ink); font-weight:500; white-space:nowrap;}
+  .flow-line{
+    width:28px;height:1px;background:var(--line);
+    margin:0 10px;
+  }
+
+  /* ---------- Sections ---------- */
+  section{margin-top:52px;}
+  .section-head{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    border-bottom:1px solid var(--line);
+    padding-bottom:10px;
+    margin-bottom:22px;
+  }
+  .section-head h2{
+    font-family:'Big Shoulders Display', ui-sans-serif, sans-serif;
+    font-weight:700;
+    font-size:26px;
+    letter-spacing:.01em;
+    text-transform:uppercase;
+  }
+
+  /* ---------- Flow list (experience / education) ---------- */
+  .flow{
+    position:relative;
+    padding-left:22px;
+    border-left:2px solid var(--line);
+  }
+  .flow-item{position:relative; padding-bottom:30px;}
+  .flow-item:last-child{padding-bottom:0;}
+  .flow-item::before{
+    content:"";
+    position:absolute;
+    left:-27px; top:4px;
+    width:10px;height:10px;border-radius:50%;
+    background:var(--surface);
+    border:2px solid var(--accent);
+  }
+  .entry-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    gap:12px;
+    flex-wrap:wrap;
+  }
+  .entry-org{font-weight:600; font-size:16.5px;}
+  .entry-loc{color:var(--muted); font-size:13px;}
+  .entry-role{color:var(--accent-ink); font-weight:500; font-size:14.5px; margin-top:2px;}
+  .entry-dates{
+    font-family:'IBM Plex Mono', ui-monospace, monospace;
+    font-size:12.5px;
+    color:var(--muted);
+    white-space:nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+  ul.bullets{margin:10px 0 0; padding-left:18px;}
+  ul.bullets li{margin-bottom:6px; padding-left:2px;}
+  ul.bullets li::marker{color:var(--accent);}
+
+  /* ---------- Projects ---------- */
+  .project{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:20px 22px;
+    box-shadow:var(--shadow);
+  }
+  .flow .project{margin-top:2px;}
+  .project + .project{margin-top:16px;}
+  .project-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    gap:12px;
+    flex-wrap:wrap;
+  }
+  .project-title{font-weight:600; font-size:16.5px;}
+  .project-year{
+    font-family:'IBM Plex Mono', ui-monospace, monospace;
+    font-size:12.5px; color:var(--muted);
+  }
+  .stack{
+    display:flex; flex-wrap:wrap; gap:6px;
+    margin:10px 0 12px;
+  }
+  .chip{
+    font-family:'IBM Plex Mono', ui-monospace, monospace;
+    font-size:11.5px;
+    padding:3px 9px;
+    border-radius:5px;
+    background:var(--teal-soft);
+    color:var(--teal);
+    border:1px solid transparent;
+  }
+  .project-link{
+    display:inline-flex; align-items:center; gap:5px;
+    margin-top:12px;
+    font-family:'IBM Plex Mono', ui-monospace, monospace;
+    font-size:12.5px;
+    color:var(--accent-ink);
+    text-decoration:none;
+    border-bottom:1px solid var(--accent);
+    padding-bottom:1px;
+  }
+  .project-link svg{width:12px;height:12px;stroke:currentColor;}
+
+  /* ---------- Secondary project rows ---------- */
+  .repo-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:16px;
+    padding:14px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .repo-row:last-child{border-bottom:none;}
+  .repo-name{font-weight:600; font-size:15px;}
+  .repo-desc{color:var(--muted); font-size:13.5px; margin-top:2px;}
+  .repo-status{
+    font-family:'IBM Plex Mono', ui-monospace, monospace;
+    font-size:10.5px;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    color:var(--accent-ink);
+    background:var(--accent-soft);
+    padding:2px 7px;
+    border-radius:4px;
+    white-space:nowrap;
+  }
+  .repo-link{
+    flex:none;
+    display:inline-flex; align-items:center; gap:5px;
+    font-family:'IBM Plex Mono', ui-monospace, monospace;
+    font-size:12px;
+    text-decoration:none;
+    color:var(--ink);
+    border:1px solid var(--line);
+    border-radius:999px;
+    padding:6px 11px;
+    transition:border-color .15s ease;
+  }
+  .repo-link:hover{border-color:var(--accent); color:var(--accent-ink);}
+  .repo-link svg{width:11px;height:11px;stroke:currentColor;}
+
+  /* ---------- Skills ---------- */
+  .skill-group{margin-bottom:20px;}
+  .skill-group:last-child{margin-bottom:0;}
+  .skill-group .label{margin-bottom:9px; display:block;}
+  .tags{display:flex; flex-wrap:wrap; gap:7px;}
+  .tag{
+    font-size:13px;
+    padding:5px 11px;
+    border-radius:7px;
+    background:var(--surface);
+    border:1px solid var(--line);
+  }
+
+  /* ---------- Languages / interests ---------- */
+  .duo{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:24px;
+  }
+  .duo p{margin:6px 0 0; color:var(--muted); font-size:14px;}
+
+  footer{
+    margin-top:64px;
+    padding-top:22px;
+    border-top:1px solid var(--line);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:12px;
+    color:var(--muted);
+    font-size:12.5px;
+  }
+  footer .contacts{margin-top:0;}
+
+  @media (max-width:600px){
+    .duo{grid-template-columns:1fr;}
+    .entry-top, .project-top{flex-direction:column; align-items:flex-start; gap:2px;}
+    .repo-row{flex-direction:column; align-items:flex-start;}
+    .flow-line{width:16px;}
+  }
+</style>
 </head>
-
 <body>
-    <div id="root">
+<div class="wrap">
 
+  <header>
+    <div class="name">Khaled Lanouar</div>
+    <div class="tagline">Ingénieur Informatique — IA agentique, Automatisation &amp; Data</div>
+
+    <div class="contacts">
+      <a class="pill" href="mailto:anouar.khaled2002@gmail.com">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6l9-6"/></svg>
+        anouar.khaled2002@gmail.com
+      </a>
+      <a class="pill" href="tel:+21626036244">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6.6 10.8a15.9 15.9 0 0 0 6.6 6.6l2.2-2.2a1.5 1.5 0 0 1 1.6-.35c1.06.35 2.18.55 3.35.55a1.5 1.5 0 0 1 1.5 1.5V20a1.5 1.5 0 0 1-1.5 1.5C10.94 21.5 2.5 13.06 2.5 3.5A1.5 1.5 0 0 1 4 2h3.25a1.5 1.5 0 0 1 1.5 1.5c0 1.17.2 2.29.55 3.35a1.5 1.5 0 0 1-.35 1.6L6.6 10.8z"/></svg>
+        +216 26 036 244
+      </a>
+      <a class="pill" href="https://www.linkedin.com/in/anouar-khaled-a57047305/" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17V10M7 7v.01M12 17v-4.5c0-1.4 1-2.5 2.4-2.5s2.6 1.1 2.6 2.5V17"/></svg>
+        LinkedIn ↗
+      </a>
+      <a class="pill" href="https://github.com/anouarkhaled" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M9 7h8v8"/></svg>
+        GitHub ↗
+      </a>
+    </div>
+
+    <p class="summary">Ingénieur en informatique spécialisé en <b>intelligence artificielle</b>. J'aborde chaque problème par le <b>besoin métier et sa valeur</b> avant la solution technique : identifier les tâches répétitives, privilégier les approches déterministes et réserver l'IA générative aux cas à forte valeur mesurable. Pratique concrète des <b>pipelines LLM, du RAG et des agents</b> (LangChain, LangGraph, ReAct), de l'intégration d'API et de la mise en production (monitoring, Docker, CI/CD). À l'aise avec des interlocuteurs non techniques et sur plusieurs projets en parallèle.</p>
+
+    <div class="flow-strip mono">
+      <div class="flow-node"><span class="flow-dot"></span><span class="label">Données</span></div>
+      <div class="flow-line"></div>
+      <div class="flow-node"><span class="flow-dot"></span><span class="label">Pipeline RAG</span></div>
+      <div class="flow-line"></div>
+      <div class="flow-node"><span class="flow-dot"></span><span class="label">Agent LLM</span></div>
+      <div class="flow-line"></div>
+      <div class="flow-node"><span class="flow-dot"></span><span class="label">Décision</span></div>
+    </div>
+  </header>
+
+  <section>
+    <div class="section-head"><h2>Expérience</h2></div>
+    <div class="flow">
+
+      <div class="flow-item">
+        <div class="entry-top">
+          <div>
+            <div class="entry-org">Omicrone <span class="entry-loc">— Tunisie</span></div>
+            <div class="entry-role">Ingénieur Data / IA (stage de fin d'études)</div>
+          </div>
+          <div class="entry-dates">Févr. 2026 – Juin 2026</div>
+        </div>
+        <ul class="bullets">
+          <li><b>Automatisation</b> d'un processus d'analyse comptable (fichiers FEC) auparavant manuel : pipeline d'extraction, nettoyage et agrégation de données (Python, pandas, SQL) avec calcul automatisé d'indicateurs financiers (EBITDA, croissance du CA, marges).</li>
+          <li>Conception d'un <b>agent ReAct</b> (LangChain, LangGraph) et d'un pipeline <b>RAG</b> (chunking, embeddings, recherche vectorielle pgvector) pour la recherche documentaire et la génération automatisée de rapports.</li>
+          <li>Développement du back-end de SmartValo, application de valorisation financière (M&amp;A) : API REST (Django REST Framework) et modèle de données PostgreSQL, du cadrage du besoin à un système prêt pour la production.</li>
+          <li>Validation des résultats sur des données réelles et travail sur la qualité et la fiabilité des données en entrée.</li>
+        </ul>
+      </div>
+
+      <div class="flow-item">
+        <div class="entry-top">
+          <div>
+            <div class="entry-org">RIF <span class="entry-loc">— La Marsa, Tunisie</span></div>
+            <div class="entry-role">Ingénieur Logiciel (stage)</div>
+          </div>
+          <div class="entry-dates">Juil. – Août 2025</div>
+        </div>
+        <ul class="bullets">
+          <li>Développement d'une application web de bout en bout, du recueil du besoin à la mise en production : modélisation UML, API REST (Python), documentation technique.</li>
+          <li>Conteneurisation Docker : mise en place de l'environnement réduite de plusieurs heures à quelques minutes pour toute l'équipe.</li>
+        </ul>
+      </div>
 
     </div>
-    <script src="index.js"></script>
-</body>
+  </section>
 
+  <section>
+    <div class="section-head"><h2>Projets phares</h2></div>
+
+    <div class="project">
+      <div class="project-top">
+        <div class="project-title">Spam Detection API — service ML de bout en bout</div>
+        <div class="project-year">2026</div>
+      </div>
+      <div class="stack">
+        <span class="chip">Python</span><span class="chip">scikit-learn</span><span class="chip">FastAPI</span><span class="chip">Docker</span><span class="chip">GitHub Actions</span><span class="chip">Chart.js</span>
+      </div>
+      <ul class="bullets">
+        <li>Classifieur TF-IDF + Logistic Regression (97.6% accuracy, comparaison honnête à Naive Bayes) emballé comme un vrai service, pas un notebook.</li>
+        <li>API FastAPI avec dashboard de monitoring en direct, conteneur Docker qui s'entraîne au build (image reproductible), CI/CD GitHub Actions (tests + build Docker).</li>
+      </ul>
+      <a class="project-link" href="https://github.com/anouarkhaled/spam-detection-api" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M9 7h8v8"/></svg>
+        Voir le code — spam-detection-api
+      </a>
+    </div>
+
+    <div class="project">
+      <div class="project-top">
+        <div class="project-title">Assistant de lecture d'articles scientifiques — Q&amp;R sur PDF (RAG)</div>
+        <div class="project-year">2026</div>
+      </div>
+      <div class="stack">
+        <span class="chip">Python</span><span class="chip">FastAPI</span><span class="chip">React</span><span class="chip">LangChain</span><span class="chip">Docling</span><span class="chip">Qdrant</span><span class="chip">Groq API · Llama 3.3</span>
+      </div>
+      <ul class="bullets">
+        <li>Pipeline RAG d'analyse documentaire : extraction structurée (Docling), chunking contextuel, génération d'embeddings et indexation vectorielle (Qdrant).</li>
+        <li>Réponses générées avec citation des passages sources (fichier + page), pour vérifier d'où vient l'information plutôt que faire confiance à un résumé.</li>
+      </ul>
+      <a class="project-link" href="https://github.com/anouarkhaled/Rag_project" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M9 7h8v8"/></svg>
+        Voir le code — Rag_project
+      </a>
+    </div>
+
+    <div class="project">
+      <div class="project-top">
+        <div class="project-title">Prédiction de ventes (BigMart) — Machine Learning &amp; Visualisation</div>
+        <div class="project-year">2025</div>
+      </div>
+      <div class="stack">
+        <span class="chip">Python</span><span class="chip">pandas</span><span class="chip">scikit-learn</span><span class="chip">SHAP</span><span class="chip">Seaborn</span><span class="chip">Streamlit</span>
+      </div>
+      <ul class="bullets">
+        <li>Préparation des données et analyse exploratoire (EDA) ; entraînement et comparaison de modèles de régression (MAE, RMSE, R²) — Random Forest retenu.</li>
+        <li>Interprétation des modèles (SHAP) et déploiement d'une application interactive (Streamlit) pour expliquer les prédictions aux non-spécialistes.</li>
+      </ul>
+      <a class="project-link" href="https://github.com/anouarkhaled/sales-prediction-" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M9 7h8v8"/></svg>
+        Voir le code — sales-prediction-
+      </a>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><h2>Autres projets GitHub</h2></div>
+
+    <div class="repo-row">
+      <div>
+        <div class="repo-name">project-knowledge-agent <span class="repo-status">En développement</span></div>
+        <div class="repo-desc">Agent de connaissance produit : RAG + tool-use, avec dossier d'évaluation dédié.</div>
+      </div>
+      <a class="repo-link" href="https://github.com/anouarkhaled/project-knowledge-agent" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M9 7h8v8"/></svg>
+        Code
+      </a>
+    </div>
+
+    <div class="repo-row">
+      <div>
+        <div class="repo-name">projet_fraud_detection</div>
+        <div class="repo-desc">Détection de fraude bancaire — classification sur données déséquilibrées.</div>
+      </div>
+      <a class="repo-link" href="https://github.com/anouarkhaled/projet_fraud_detection" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M9 7h8v8"/></svg>
+        Code
+      </a>
+    </div>
+
+    <div class="repo-row">
+      <div>
+        <div class="repo-name">AI-Clustering_Insight-Dashboard</div>
+        <div class="repo-desc">Dashboard d'exploration de données par clustering non supervisé.</div>
+      </div>
+      <a class="repo-link" href="https://github.com/anouarkhaled/AI-Clustering_Insight-Dashboard" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M9 7h8v8"/></svg>
+        Code
+      </a>
+    </div>
+
+    <div class="repo-row">
+      <div>
+        <div class="repo-name">marketplace</div>
+        <div class="repo-desc">Application marketplace full-stack — API back-end et interface web.</div>
+      </div>
+      <a class="repo-link" href="https://github.com/anouarkhaled/marketplace" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M9 7h8v8"/></svg>
+        Code
+      </a>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><h2>Compétences</h2></div>
+
+    <div class="skill-group">
+      <span class="label">IA générative &amp; Agents</span>
+      <div class="tags">
+        <span class="tag">RAG</span><span class="tag">LangChain</span><span class="tag">LangGraph</span><span class="tag">ReAct</span><span class="tag">Embeddings</span><span class="tag">pgvector</span><span class="tag">Qdrant</span><span class="tag">Prompt engineering</span><span class="tag">LLM via API (Groq / Llama)</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <span class="label">Automatisation &amp; Intégration</span>
+      <div class="tags">
+        <span class="tag">Pipelines de données</span><span class="tag">Orchestration de workflows</span><span class="tag">FastAPI</span><span class="tag">Django REST Framework</span><span class="tag">n8n</span><span class="tag">Make</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <span class="label">Machine Learning &amp; Data Science</span>
+      <div class="tags">
+        <span class="tag">scikit-learn</span><span class="tag">TensorFlow</span><span class="tag">Keras</span><span class="tag">Régression</span><span class="tag">Classification</span><span class="tag">Clustering</span><span class="tag">EDA</span><span class="tag">SHAP</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <span class="label">Données &amp; Bases de données</span>
+      <div class="tags">
+        <span class="tag">pandas</span><span class="tag">NumPy</span><span class="tag">SQL</span><span class="tag">PostgreSQL</span><span class="tag">MySQL</span><span class="tag">MongoDB</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <span class="label">Programmation</span>
+      <div class="tags">
+        <span class="tag">Python</span><span class="tag">Java</span><span class="tag">C / C++</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <span class="label">Outils &amp; DevOps</span>
+      <div class="tags">
+        <span class="tag">Git / GitHub</span><span class="tag">Docker</span><span class="tag">GitHub Actions (CI/CD)</span><span class="tag">Linux</span><span class="tag">Monitoring &amp; observabilité</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><h2>Formation</h2></div>
+    <div class="flow">
+      <div class="flow-item">
+        <div class="entry-top">
+          <div>
+            <div class="entry-org">École Nationale des Sciences de l'Informatique (ENSI) <span class="entry-loc">— Tunisie</span></div>
+            <div class="entry-role">Diplôme National d'Ingénieur en Informatique — parcours Intelligence Artificielle (équiv. Master)</div>
+          </div>
+          <div class="entry-dates">2023 – 2026</div>
+        </div>
+      </div>
+      <div class="flow-item">
+        <div class="entry-top">
+          <div>
+            <div class="entry-org">IPEI Nabeul (IPEIN) <span class="entry-loc">— Tunisie</span></div>
+            <div class="entry-role">Cycle préparatoire — Mathématiques &amp; Physique</div>
+          </div>
+          <div class="entry-dates">2021 – 2023</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><h2>Langues &amp; centres d'intérêt</h2></div>
+    <div class="duo">
+      <div>
+        <span class="label">Langues</span>
+        <p>Arabe (langue maternelle) · Français (courant) · Anglais (professionnel)</p>
+      </div>
+      <div>
+        <span class="label">Centres d'intérêt</span>
+        <p>Veille sur la recherche en IA et en visualisation de données, rédaction technique, voyages, football</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>Khaled Lanouar — mis à jour 2026</span>
+    <div class="contacts">
+      <a class="pill" href="mailto:anouar.khaled2002@gmail.com">Email</a>
+      <a class="pill" href="https://www.linkedin.com/in/anouar-khaled-a57047305/" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="pill" href="https://github.com/anouarkhaled" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </footer>
+
+</div>
+</body>
 </html>
